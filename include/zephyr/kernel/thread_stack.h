@@ -33,7 +33,7 @@ extern "C" {
  * type.
  *
  * The purpose of this data type is to clearly distinguish between the
- * declared symbol for a stack (of type k_thread_stack_t) and the underlying
+ * declared symbol for a stack (of type struct z_thread_stack_element) and the underlying
  * buffer which composes the stack data actually used by the underlying
  * thread; they cannot be used interchangeably as some arches precede the
  * stack buffer region with guard areas that trigger a MPU or MMU fault
@@ -49,7 +49,7 @@ struct __packed z_thread_stack_element {
 };
 
 /**
- * @typedef k_thread_stack_t
+ * @typedef struct z_thread_stack_element
  * @brief Typedef of struct z_thread_stack_element
  *
  * @see z_thread_stack_element
@@ -115,7 +115,7 @@ static inline char *z_stack_ptr_align(char *ptr)
  *
  * @param sym Thread stack symbol name
  */
-#define K_KERNEL_STACK_EXTERN(sym) extern k_thread_stack_t sym[]
+#define K_KERNEL_STACK_EXTERN(sym) extern struct z_thread_stack_element sym[]
 
 /**
  * @addtogroup thread_stack_api
@@ -289,7 +289,7 @@ static inline char *z_stack_ptr_align(char *ptr)
 
 /** @} */
 
-static inline char *Z_KERNEL_STACK_BUFFER(k_thread_stack_t *sym)
+static inline char *Z_KERNEL_STACK_BUFFER(struct z_thread_stack_element *sym)
 {
 	return (char *)sym + K_KERNEL_STACK_RESERVED;
 }
@@ -404,7 +404,7 @@ static inline char *Z_KERNEL_STACK_BUFFER(k_thread_stack_t *sym)
  *
  * @param sym Thread stack symbol name
  */
-#define K_THREAD_STACK_EXTERN(sym) extern k_thread_stack_t sym[]
+#define K_THREAD_STACK_EXTERN(sym) extern struct z_thread_stack_element sym[]
 
 /**
  * @brief Obtain an extern reference to a thread stack array
@@ -501,7 +501,7 @@ static inline char *Z_KERNEL_STACK_BUFFER(k_thread_stack_t *sym)
  * This is the generic, historical definition. Align to Z_THREAD_STACK_OBJ_ALIGN
  * and put in 'noinit' section so that it isn't zeroed at boot
  *
- * The declared symbol will always be a k_thread_stack_t which can be passed to
+ * The declared symbol will always be a struct z_thread_stack_element which can be passed to
  * k_thread_create(), but should otherwise not be manipulated. If the buffer
  * inside needs to be examined, examine thread->stack_info for the associated
  * thread object to obtain the boundaries.
@@ -655,7 +655,7 @@ static inline char *Z_KERNEL_STACK_BUFFER(k_thread_stack_t *sym)
  * @param sym Declared stack symbol name
  * @return The buffer itself, a char *
  */
-static inline char *Z_THREAD_STACK_BUFFER(k_thread_stack_t *sym)
+static inline char *Z_THREAD_STACK_BUFFER(struct z_thread_stack_element *sym)
 {
 	return (char *)sym + K_THREAD_STACK_RESERVED;
 }
