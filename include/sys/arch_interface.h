@@ -41,6 +41,7 @@ extern "C" {
 struct k_thread;
 struct k_mem_domain;
 
+struct z_thread_stack_element;
 typedef struct z_thread_stack_element k_thread_stack_t;
 
 typedef void (*k_thread_entry_t)(void *p1, void *p2, void *p3);
