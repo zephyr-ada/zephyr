@@ -15,6 +15,7 @@ config MEMC
 	default y if DISPLAY
 
 config LV_Z_DISPLAY_DEV_NAME
+	string
 	depends on LVGL
 	default "LTDC" if STM32_LTDC
 
